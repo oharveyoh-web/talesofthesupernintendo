@@ -1,112 +1,264 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Scalabrini – L'Homme de l'Année 🏒</title>
-  <link rel="stylesheet" href="style.css"/>
+  <title>Tales of the Super Nintendo</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --sky: #87CEEB;
+      --grass: #5DBB63;
+      --dark: #1A1A2E;
+      --gold: #FFD700;
+    }
+
+    body {
+      font-family: 'Comic Sans MS', 'Chalkboard SE', cursive;
+      background: linear-gradient(180deg, #0D0D2B 0%, #1A1A4E 50%, #0D0D2B 100%);
+      min-height: 100vh;
+      overflow-x: hidden;
+      color: white;
+    }
+
+    /* ===== STARS ===== */
+    #stars {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .star {
+      position: absolute;
+      background: white;
+      border-radius: 50%;
+      animation: twinkle linear infinite;
+    }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.2; transform: scale(1); }
+      50%       { opacity: 1;   transform: scale(1.4); }
+    }
+
+    /* ===== LAYOUT ===== */
+    .page {
+      position: relative;
+      z-index: 1;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 60px 24px 80px;
+      text-align: center;
+    }
+
+    /* ===== HEADER ===== */
+    .site-title {
+      font-size: clamp(2rem, 7vw, 4rem);
+      font-weight: bold;
+      letter-spacing: 0.06em;
+      text-shadow: 0 0 20px rgba(255,215,0,0.6), 3px 3px 0 rgba(0,0,0,0.4);
+      color: var(--gold);
+      margin-bottom: 8px;
+      animation: glow 3s ease-in-out infinite;
+    }
+
+    @keyframes glow {
+      0%, 100% { text-shadow: 0 0 20px rgba(255,215,0,0.6), 3px 3px 0 rgba(0,0,0,0.4); }
+      50%       { text-shadow: 0 0 40px rgba(255,215,0,1),   3px 3px 0 rgba(0,0,0,0.4); }
+    }
+
+    .site-subtitle {
+      font-size: clamp(0.9rem, 2.5vw, 1.2rem);
+      color: rgba(255,255,255,0.6);
+      margin-bottom: 60px;
+      font-style: italic;
+    }
+
+    /* ===== CARDS ===== */
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 32px;
+      margin-top: 20px;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.06);
+      border: 2px solid rgba(255,255,255,0.12);
+      border-radius: 20px;
+      padding: 36px 28px 32px;
+      text-decoration: none;
+      color: white;
+      transition: transform 0.25s, background 0.25s, border-color 0.25s, box-shadow 0.25s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 18px;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .card-hockey::before  { background: radial-gradient(circle at center, rgba(213,43,30,0.15), transparent 70%); }
+    .card-twoguys::before { background: radial-gradient(circle at center, rgba(155,89,182,0.15), transparent 70%); }
+
+    .card:hover {
+      transform: translateY(-10px) scale(1.02);
+      border-color: rgba(255,255,255,0.35);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    }
+
+    .card:hover::before { opacity: 1; }
+
+    .card-hockey:hover  { border-color: rgba(213,43,30,0.7);  box-shadow: 0 20px 60px rgba(213,43,30,0.3); }
+    .card-twoguys:hover { border-color: rgba(155,89,182,0.7); box-shadow: 0 20px 60px rgba(155,89,182,0.3); }
+
+    .card-icon {
+      font-size: 4rem;
+      line-height: 1;
+      filter: drop-shadow(0 4px 12px rgba(0,0,0,0.4));
+      animation: float 3s ease-in-out infinite;
+    }
+
+    .card-twoguys .card-icon { animation-delay: -1.5s; }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(-10px); }
+    }
+
+    .card-title {
+      font-size: 1.6rem;
+      font-weight: bold;
+      letter-spacing: 0.04em;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.4);
+    }
+
+    .card-hockey  .card-title { color: #FF6B6B; }
+    .card-twoguys .card-title { color: #C39BD3; }
+
+    .card-desc {
+      font-size: 0.95rem;
+      color: rgba(255,255,255,0.65);
+      line-height: 1.6;
+      font-family: Georgia, serif;
+    }
+
+    .card-tag {
+      display: inline-block;
+      padding: 5px 16px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: bold;
+      letter-spacing: 0.05em;
+      margin-top: 4px;
+    }
+
+    .card-hockey  .card-tag { background: rgba(213,43,30,0.25); color: #FF9999; border: 1px solid rgba(213,43,30,0.5); }
+    .card-twoguys .card-tag { background: rgba(155,89,182,0.25); color: #D7BDE2; border: 1px solid rgba(155,89,182,0.5); }
+
+    .visit-btn {
+      margin-top: 8px;
+      padding: 10px 28px;
+      border-radius: 30px;
+      font-family: inherit;
+      font-size: 0.95rem;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s;
+      pointer-events: none; /* card itself is the link */
+    }
+
+    .card-hockey  .visit-btn { background: linear-gradient(135deg, #D52B1E, #8B0000); color: white; box-shadow: 0 4px 16px rgba(213,43,30,0.4); }
+    .card-twoguys .visit-btn { background: linear-gradient(135deg, #9B59B6, #6C3483); color: white; box-shadow: 0 4px 16px rgba(155,89,182,0.4); }
+
+    .card:hover .visit-btn { transform: scale(1.05); }
+
+    /* ===== FOOTER ===== */
+    footer {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 24px;
+      color: rgba(255,255,255,0.3);
+      font-size: 0.8rem;
+      font-family: Georgia, serif;
+    }
+  </style>
 </head>
 <body>
 
-  <nav>
-    <a href="index.html" class="active">🏠 Accueil</a>
-    <a href="les-ratages.html">💨 Les Ratages</a>
-    <a href="hommage.html">🏆 L'Hommage</a>
-  </nav>
+  <div id="stars"></div>
 
-  <header>
-    <div class="maple-leaf">🍁</div>
-    <h1>Scalabrini</h1>
-    <h2>L'Homme de l'Année</h2>
-    <p class="subtitle">Une légende. Un mythe. Un gars qui a failli.</p>
-  </header>
+  <div class="page">
 
-  <main>
+    <h1 class="site-title">✨ Tales of the Super Nintendo ✨</h1>
+    <p class="site-subtitle">A collection of very important websites about very important things.</p>
 
-    <section class="hero-card">
-      <div class="player-icon">🥅🏒🇨🇦</div>
-      <h3>Qui est Scalabrini ?</h3>
-      <p>
-        Scalabrini. Le nom résonne comme un coup de bâton sur la glace.
-        Ou comme le bruit d'un disque qui claque sur le poteau.
-        Ou sur la barre. Ou qui passe à côté.
-        <strong>C'est surtout ça, en fait.</strong>
-      </p>
-      <p>
-        Joueur de hockey pour l'équipe Canada, cet athlète d'exception a montré
-        lors du dernier grand match une chose que le monde entier retiendra :
-        <em>il peut viser avec une précision chirurgicale... à côté du filet.</em>
-      </p>
-    </section>
+    <div class="cards">
 
-    <section class="stats-box">
-      <h3>📊 Fiche Technique du Match Historique</h3>
-      <table>
-        <tr>
-          <td>🏒 Lancers cadrés</td>
-          <td><strong>0</strong></td>
-        </tr>
-        <tr>
-          <td>💨 Occasions ratées</td>
-          <td><strong>3 (trois)</strong></td>
-        </tr>
-        <tr>
-          <td>😤 Efforts fournis</td>
-          <td><strong>Indéniables</strong></td>
-        </tr>
-        <tr>
-          <td>🎯 Efficacité devant le filet</td>
-          <td><strong>0 %</strong></td>
-        </tr>
-        <tr>
-          <td>🇺🇸 Résultat contre les USA</td>
-          <td><strong>Défaite en prolongation</strong></td>
-        </tr>
-        <tr>
-          <td>🥇 Titre reçu malgré tout</td>
-          <td><strong>Homme de l'Année</strong></td>
-        </tr>
-      </table>
-    </section>
+      <!-- SCALABRINI -->
+      <a href="scalabrini-site/index.html" class="card card-hockey">
+        <div class="card-icon">🏒🍁</div>
+        <div class="card-title">Scalabrini</div>
+        <span class="card-tag">🇨🇦 HOCKEY · FRANÇAIS</span>
+        <p class="card-desc">
+          L'homme de l'année. Le joueur qui a raté 3 occasions en or,
+          vu son équipe perdre contre les USA en prolongation,
+          et reçu un hommage quand même.
+        </p>
+        <div class="visit-btn">Visiter le site →</div>
+      </a>
 
-    <section class="quote-box">
-      <blockquote>
-        "Il a joué avec son coeur. Son bâton, c'est une autre histoire."
-        <cite>— Un analyste qui préfère rester anonyme</cite>
-      </blockquote>
-    </section>
+      <!-- TWO GUYS -->
+      <a href="two-guys/index.html" class="card card-twoguys">
+        <div class="card-icon">🕺🕺</div>
+        <div class="card-title">Two Guys!</div>
+        <span class="card-tag">🎉 ANIMATED · FUN</span>
+        <p class="card-desc">
+          Just two guys. Bouncing, swaying, waving, and having
+          an absolutely great time. What more could you ask for?
+        </p>
+        <div class="visit-btn">Visit the site →</div>
+      </a>
 
-    <section class="timeline">
-      <h3>🕰️ La Soirée Racontée en 3 Actes</h3>
-      <div class="timeline-item">
-        <span class="time">Période 1</span>
-        <p>Scalabrini patine, joue, s'implique. Le Canada domine. L'espoir est là. 🇨🇦</p>
-      </div>
-      <div class="timeline-item">
-        <span class="time">Période 2</span>
-        <p>Première occasion en or. Deuxième occasion en or. Le gardien américain commence à se sentir seul. Scalabrini l'aide à se sentir utile.</p>
-      </div>
-      <div class="timeline-item">
-        <span class="time">Période 3</span>
-        <p>Troisième occasion. La nation retient son souffle. Le disque retient... sa direction.</p>
-      </div>
-      <div class="timeline-item bad">
-        <span class="time">Prolongation</span>
-        <p>🇺🇸 Les États-Unis marquent. La glace fond de honte. Scalabrini contemple l'horizon.</p>
-      </div>
-    </section>
-
-    <div class="cta-buttons">
-      <a href="les-ratages.html" class="btn">Voir les 3 ratages en détail 💨</a>
-      <a href="hommage.html" class="btn btn-gold">Lui rendre hommage quand même 🏆</a>
     </div>
 
-  </main>
+  </div>
 
   <footer>
-    <p>© 2026 – Fondation Scalabrini pour l'Avancement du Hockey Approximatif</p>
-    <p><em>"On ne rate pas des occasions. On crée des souvenirs inoubliables."</em></p>
+    <p>Tales of the Super Nintendo &nbsp;·&nbsp; All rights reserved, probably &nbsp;·&nbsp; 2026</p>
   </footer>
+
+  <script>
+    // Generate starfield
+    const container = document.getElementById('stars');
+    for (let i = 0; i < 120; i++) {
+      const s = document.createElement('div');
+      s.className = 'star';
+      const size = 1 + Math.random() * 2.5;
+      s.style.cssText = `
+        left: ${Math.random() * 100}vw;
+        top:  ${Math.random() * 100}vh;
+        width:  ${size}px;
+        height: ${size}px;
+        animation-duration: ${2 + Math.random() * 4}s;
+        animation-delay:    ${Math.random() * 5}s;
+      `;
+      container.appendChild(s);
+    }
+  </script>
 
 </body>
 </html>
