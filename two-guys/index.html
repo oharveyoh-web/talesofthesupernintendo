@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Two Guys!</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: linear-gradient(180deg, #87CEEB 0%, #87CEEB 60%, #5DBB63 60%, #5DBB63 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      font-family: 'Comic Sans MS', cursive;
+      overflow: hidden;
+      padding-bottom: 30px;
+    }
+
+    h1 {
+      position: absolute;
+      top: 20px;
+      font-size: 2rem;
+      color: white;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+      letter-spacing: 2px;
+    }
+
+    /* Sun */
+    .sun {
+      position: absolute;
+      top: 30px;
+      right: 30px;
+      width: 70px;
+      height: 70px;
+      background: #FFD700;
+      border-radius: 50%;
+      box-shadow: 0 0 30px #FFD700;
+      animation: sunPulse 3s ease-in-out infinite;
+    }
+    @keyframes sunPulse {
+      0%, 100% { box-shadow: 0 0 30px #FFD700; }
+      50% { box-shadow: 0 0 60px #FFD700, 0 0 80px #FFA500; }
+    }
+
+    /* Clouds */
+    .cloud {
+      position: absolute;
+      background: white;
+      border-radius: 50px;
+      opacity: 0.9;
+    }
+    .cloud::before, .cloud::after {
+      content: '';
+      position: absolute;
+      background: white;
+      border-radius: 50%;
+    }
+    .cloud1 { width: 100px; height: 35px; top: 80px; left: -120px; animation: cloudMove 20s linear infinite; }
+    .cloud1::before { width: 50px; height: 50px; top: -25px; left: 15px; }
+    .cloud1::after  { width: 35px; height: 35px; top: -15px; left: 45px; }
+
+    .cloud2 { width: 80px; height: 28px; top: 140px; left: -100px; animation: cloudMove 28s linear infinite 8s; }
+    .cloud2::before { width: 40px; height: 40px; top: -20px; left: 10px; }
+    .cloud2::after  { width: 28px; height: 28px; top: -12px; left: 38px; }
+
+    @keyframes cloudMove {
+      from { left: -150px; }
+      to   { left: 110vw; }
+    }
+
+    /* Stage / ground */
+    .ground {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      height: 40%;
+      background: #5DBB63;
+    }
+
+    /* Guys container */
+    .guys {
+      display: flex;
+      gap: 60px;
+      align-items: flex-end;
+      position: relative;
+      z-index: 10;
+    }
+
+    /* ========= GUY SVG WRAPPER ========= */
+    .guy-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+    .guy-label {
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: white;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+    }
+
+    /* Guy 1 — bouncing */
+    .guy1 { animation: bounce 0.6s ease-in-out infinite alternate; }
+    @keyframes bounce {
+      from { transform: translateY(0); }
+      to   { transform: translateY(-18px); }
+    }
+
+    /* Guy 2 — side-sway */
+    .guy2 { animation: sway 1s ease-in-out infinite alternate; }
+    @keyframes sway {
+      from { transform: rotate(-6deg); }
+      to   { transform: rotate(6deg); }
+    }
+
+    /* Arm wave */
+    .arm-left  { transform-origin: top right; animation: waveLeft 0.5s ease-in-out infinite alternate; }
+    .arm-right { transform-origin: top left;  animation: waveRight 0.5s ease-in-out infinite alternate; }
+    @keyframes waveLeft  { from { transform: rotate(-20deg); } to { transform: rotate(40deg); } }
+    @keyframes waveRight { from { transform: rotate(20deg);  } to { transform: rotate(-40deg); } }
+
+    /* Eye blink */
+    .eye { animation: blink 3s ease-in-out infinite; }
+    @keyframes blink {
+      0%, 90%, 100% { transform: scaleY(1); }
+      95% { transform: scaleY(0.05); }
+    }
+
+    /* Leg walk */
+    .leg-left  { transform-origin: top center; animation: legLeft 0.5s ease-in-out infinite alternate; }
+    .leg-right { transform-origin: top center; animation: legRight 0.5s ease-in-out infinite alternate; }
+    @keyframes legLeft  { from { transform: rotate(-15deg); } to { transform: rotate(15deg); } }
+    @keyframes legRight { from { transform: rotate(15deg);  } to { transform: rotate(-15deg); } }
+
+    /* Speech bubbles */
+    .bubble {
+      position: absolute;
+      background: white;
+      border-radius: 16px;
+      padding: 8px 12px;
+      font-size: 0.85rem;
+      font-weight: bold;
+      color: #333;
+      white-space: nowrap;
+      box-shadow: 2px 2px 6px rgba(0,0,0,0.2);
+      animation: bubblePop 4s ease-in-out infinite;
+      top: -70px;
+    }
+    .bubble::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      border: 10px solid transparent;
+      border-top-color: white;
+      border-bottom: none;
+    }
+    .bubble1 { left: -20px; animation-delay: 0s; }
+    .bubble2 { right: -20px; animation-delay: 2s; }
+
+    @keyframes bubblePop {
+      0%, 100% { opacity: 0; transform: scale(0.5); }
+      15%, 85% { opacity: 1; transform: scale(1); }
+    }
+
+    /* Confetti */
+    .confetti-piece {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      top: -10px;
+      animation: fall linear infinite;
+    }
+    @keyframes fall {
+      to { transform: translateY(105vh) rotate(720deg); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Hey, It's Them! 🎉</h1>
+
+  <div class="sun"></div>
+  <div class="cloud cloud1"></div>
+  <div class="cloud cloud2"></div>
+
+  <div class="guys">
+
+    <!-- GUY 1 -->
+    <div class="guy-wrap">
+      <div style="position:relative">
+        <div class="bubble bubble1" id="b1">Heyyyy!!</div>
+        <svg class="guy1" width="90" height="160" viewBox="0 0 90 160">
+          <!-- Body -->
+          <rect x="27" y="60" width="36" height="50" rx="6" fill="#E8A87C"/>
+          <!-- Shirt detail -->
+          <rect x="27" y="60" width="36" height="50" rx="6" fill="#FF6B6B" opacity="0.85"/>
+          <!-- Head -->
+          <ellipse cx="45" cy="38" rx="22" ry="24" fill="#F5C5A0"/>
+          <!-- Hair -->
+          <ellipse cx="45" cy="18" rx="22" ry="10" fill="#4A2C0A"/>
+          <!-- Eyes -->
+          <g class="eye"><ellipse cx="37" cy="36" rx="4" ry="5" fill="white"/><circle cx="38" cy="37" r="2.5" fill="#333"/></g>
+          <g class="eye"><ellipse cx="53" cy="36" rx="4" ry="5" fill="white"/><circle cx="54" cy="37" r="2.5" fill="#333"/></g>
+          <!-- Smile -->
+          <path d="M37 48 Q45 56 53 48" stroke="#A0522D" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          <!-- Cheeks -->
+          <ellipse cx="30" cy="44" rx="6" ry="4" fill="#FFB6A3" opacity="0.5"/>
+          <ellipse cx="60" cy="44" rx="6" ry="4" fill="#FFB6A3" opacity="0.5"/>
+          <!-- Left arm -->
+          <g class="arm-left">
+            <rect x="2" y="62" width="26" height="12" rx="6" fill="#FF6B6B"/>
+            <circle cx="4" cy="68" r="7" fill="#F5C5A0"/>
+          </g>
+          <!-- Right arm -->
+          <g class="arm-right">
+            <rect x="62" y="62" width="26" height="12" rx="6" fill="#FF6B6B"/>
+            <circle cx="84" cy="68" r="7" fill="#F5C5A0"/>
+          </g>
+          <!-- Left leg -->
+          <g class="leg-left">
+            <rect x="28" y="108" width="14" height="40" rx="6" fill="#4169E1"/>
+            <rect x="25" y="144" width="18" height="12" rx="5" fill="#333"/>
+          </g>
+          <!-- Right leg -->
+          <g class="leg-right">
+            <rect x="48" y="108" width="14" height="40" rx="6" fill="#4169E1"/>
+            <rect x="47" y="144" width="18" height="12" rx="5" fill="#333"/>
+          </g>
+        </svg>
+      </div>
+      <div class="guy-label">Guy #1</div>
+    </div>
+
+    <!-- GUY 2 -->
+    <div class="guy-wrap">
+      <div style="position:relative">
+        <div class="bubble bubble2" id="b2">Sup dude!!</div>
+        <svg class="guy2" width="90" height="160" viewBox="0 0 90 160">
+          <!-- Body / shirt -->
+          <rect x="27" y="60" width="36" height="50" rx="6" fill="#9B59B6"/>
+          <!-- Head -->
+          <ellipse cx="45" cy="38" rx="22" ry="24" fill="#F5D5A0"/>
+          <!-- Hair (spiky) -->
+          <ellipse cx="45" cy="17" rx="22" ry="9" fill="#222"/>
+          <polygon points="30,14 34,0 38,14" fill="#222"/>
+          <polygon points="42,12 45,0 48,12" fill="#222"/>
+          <polygon points="52,14 56,0 60,14" fill="#222"/>
+          <!-- Eyes -->
+          <g class="eye"><ellipse cx="37" cy="36" rx="4" ry="5" fill="white"/><circle cx="38" cy="37" r="2.5" fill="#1A1A2E"/></g>
+          <g class="eye"><ellipse cx="53" cy="36" rx="4" ry="5" fill="white"/><circle cx="54" cy="37" r="2.5" fill="#1A1A2E"/></g>
+          <!-- Cool sunglasses -->
+          <rect x="31" y="31" width="12" height="9" rx="3" fill="#333" opacity="0.85"/>
+          <rect x="47" y="31" width="12" height="9" rx="3" fill="#333" opacity="0.85"/>
+          <line x1="43" y1="35" x2="47" y2="35" stroke="#555" stroke-width="2"/>
+          <!-- Smile / smirk -->
+          <path d="M38 49 Q46 57 54 49" stroke="#A0522D" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          <!-- Cheeks -->
+          <ellipse cx="30" cy="44" rx="6" ry="4" fill="#FFB6A3" opacity="0.4"/>
+          <ellipse cx="60" cy="44" rx="6" ry="4" fill="#FFB6A3" opacity="0.4"/>
+          <!-- Left arm -->
+          <g class="arm-left" style="animation-delay:-0.25s">
+            <rect x="2" y="62" width="26" height="12" rx="6" fill="#9B59B6"/>
+            <circle cx="4" cy="68" r="7" fill="#F5D5A0"/>
+          </g>
+          <!-- Right arm -->
+          <g class="arm-right" style="animation-delay:-0.25s">
+            <rect x="62" y="62" width="26" height="12" rx="6" fill="#9B59B6"/>
+            <circle cx="84" cy="68" r="7" fill="#F5D5A0"/>
+          </g>
+          <!-- Left leg -->
+          <g class="leg-left" style="animation-delay:-0.25s">
+            <rect x="28" y="108" width="14" height="40" rx="6" fill="#2C3E50"/>
+            <rect x="25" y="144" width="18" height="12" rx="5" fill="#E74C3C"/>
+          </g>
+          <!-- Right leg -->
+          <g class="leg-right" style="animation-delay:-0.25s">
+            <rect x="48" y="108" width="14" height="40" rx="6" fill="#2C3E50"/>
+            <rect x="47" y="144" width="18" height="12" rx="5" fill="#E74C3C"/>
+          </g>
+        </svg>
+      </div>
+      <div class="guy-label">Guy #2</div>
+    </div>
+
+  </div>
+
+  <!-- Confetti -->
+  <div id="confetti"></div>
+
+  <script>
+    // Cycle speech bubbles
+    const msgs1 = ["Heyyyy!!", "Lookin good!", "Woohoo!!", "Let's GO!", ":D"];
+    const msgs2 = ["Sup dude!!", "Wazzup!!", "High five!", "Yeah!!", "😎"];
+    let i1 = 0, i2 = 1;
+    setInterval(() => {
+      document.getElementById('b1').textContent = msgs1[i1++ % msgs1.length];
+    }, 4000);
+    setInterval(() => {
+      document.getElementById('b2').textContent = msgs2[i2++ % msgs2.length];
+    }, 4000);
+
+    // Confetti
+    const colors = ['#FF6B6B','#FFD700','#9B59B6','#4169E1','#5DBB63','#FF69B4','#00CED1'];
+    const container = document.getElementById('confetti');
+    for (let i = 0; i < 30; i++) {
+      const el = document.createElement('div');
+      el.className = 'confetti-piece';
+      el.style.cssText = `
+        left: ${Math.random()*100}vw;
+        background: ${colors[Math.floor(Math.random()*colors.length)]};
+        border-radius: ${Math.random() > 0.5 ? '50%' : '0'};
+        width: ${6+Math.random()*10}px;
+        height: ${6+Math.random()*10}px;
+        animation-duration: ${3+Math.random()*5}s;
+        animation-delay: ${Math.random()*5}s;
+      `;
+      container.appendChild(el);
+    }
+  </script>
+</body>
+</html>
