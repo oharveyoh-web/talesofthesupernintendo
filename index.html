@@ -195,6 +195,11 @@
       font-size: 0.8rem;
       font-family: Georgia, serif;
     }
+
+    @keyframes hint-pulse {
+      0%, 100% { opacity: 0.4; }
+      50%       { opacity: 1; color: rgba(255,215,0,0.4); }
+    }
   </style>
 </head>
 <body>
@@ -267,17 +272,20 @@
 
   <footer>
     <p>Tales of the Super Nintendo &nbsp;·&nbsp; All rights reserved, probably &nbsp;·&nbsp; 2026</p>
+    <p style="margin-top:12px; font-size:0.75rem; color:rgba(255,255,255,0.15); cursor:default; animation: hint-pulse 3s ease-in-out infinite;">
+      psst... try clicking the title
+    </p>
   </footer>
 
   <script>
-    // Easter egg: click title 5 times to unlock Anthony page
+    // Easter egg: click title 3 times to unlock Anthony page
     let clicks = 0;
     let clickTimer;
     document.getElementById('secret-title').addEventListener('click', () => {
       clicks++;
       clearTimeout(clickTimer);
       clickTimer = setTimeout(() => { clicks = 0; }, 2000);
-      if (clicks >= 5) {
+      if (clicks >= 3) {
         clicks = 0;
         document.getElementById('secret-popup').style.display = 'block';
       }
