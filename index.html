@@ -203,7 +203,7 @@
 
   <div class="page">
 
-    <h1 class="site-title">✨ Tales of the Super Nintendo ✨</h1>
+    <h1 class="site-title" id="secret-title" title="...">✨ Tales of the Super Nintendo ✨</h1>
     <p class="site-subtitle">A collection of very important websites about very important things.</p>
 
     <div class="cards">
@@ -237,11 +237,52 @@
 
   </div>
 
+  <!-- Secret Anthony link (hidden until unlocked) -->
+  <div id="secret-popup" style="
+    display:none;
+    position:fixed;
+    bottom:24px;
+    right:24px;
+    background:rgba(255,215,0,0.12);
+    border:2px solid rgba(255,215,0,0.5);
+    border-radius:14px;
+    padding:16px 22px;
+    text-align:center;
+    z-index:999;
+    animation: fadeIn 0.4s ease;
+  ">
+    <div style="font-size:1.6rem;margin-bottom:6px;">🕵️</div>
+    <div style="font-size:0.85rem;color:rgba(255,255,255,0.6);margin-bottom:10px;font-style:italic;">you found something...</div>
+    <a href="anthony.html" style="
+      display:inline-block;
+      background:#FFD700;
+      color:#1A1A2E;
+      text-decoration:none;
+      font-weight:bold;
+      font-size:0.9rem;
+      padding:8px 20px;
+      border-radius:20px;
+    ">Open the classified file 📂</a>
+  </div>
+
   <footer>
     <p>Tales of the Super Nintendo &nbsp;·&nbsp; All rights reserved, probably &nbsp;·&nbsp; 2026</p>
   </footer>
 
   <script>
+    // Easter egg: click title 5 times to unlock Anthony page
+    let clicks = 0;
+    let clickTimer;
+    document.getElementById('secret-title').addEventListener('click', () => {
+      clicks++;
+      clearTimeout(clickTimer);
+      clickTimer = setTimeout(() => { clicks = 0; }, 2000);
+      if (clicks >= 5) {
+        clicks = 0;
+        document.getElementById('secret-popup').style.display = 'block';
+      }
+    });
+
     // Generate starfield
     const container = document.getElementById('stars');
     for (let i = 0; i < 120; i++) {
