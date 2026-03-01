@@ -3,6 +3,11 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="A collection of very important websites about very important things — hockey legends, animated guys, and hidden easter eggs."/>
+  <meta property="og:title" content="Tales of the Super Nintendo"/>
+  <meta property="og:description" content="A collection of very important websites about very important things — hockey legends, animated guys, and hidden easter eggs."/>
+  <meta property="og:type" content="website"/>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎮</text></svg>"/>
   <title>Tales of the Super Nintendo</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -36,6 +41,7 @@
       background: white;
       border-radius: 50%;
       animation: twinkle linear infinite;
+      will-change: opacity, transform;
     }
 
     @keyframes twinkle {
@@ -71,7 +77,7 @@
 
     .site-subtitle {
       font-size: clamp(0.9rem, 2.5vw, 1.2rem);
-      color: rgba(255,255,255,0.6);
+      color: rgba(255,255,255,0.7);
       margin-bottom: 60px;
       font-style: italic;
     }
@@ -191,7 +197,7 @@
       z-index: 1;
       text-align: center;
       padding: 24px;
-      color: rgba(255,255,255,0.3);
+      color: rgba(255,255,255,0.55);
       font-size: 0.8rem;
       font-family: Georgia, serif;
     }
@@ -199,6 +205,41 @@
     @keyframes hint-pulse {
       0%, 100% { opacity: 0.4; }
       50%       { opacity: 1; color: rgba(255,215,0,0.4); }
+    }
+
+    /* Secret popup */
+    #secret-popup {
+      display: none;
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: rgba(255,215,0,0.12);
+      border: 2px solid rgba(255,215,0,0.5);
+      border-radius: 14px;
+      padding: 16px 22px;
+      text-align: center;
+      z-index: 999;
+      animation: fadeIn 0.4s ease;
+    }
+    #secret-popup .popup-icon { font-size: 1.6rem; margin-bottom: 6px; }
+    #secret-popup .popup-text { font-size: 0.85rem; color: rgba(255,255,255,0.6); margin-bottom: 10px; font-style: italic; }
+    #secret-popup a {
+      display: inline-block;
+      background: #FFD700;
+      color: #1A1A2E;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 0.9rem;
+      padding: 8px 20px;
+      border-radius: 20px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
     }
   </style>
 </head>
@@ -216,12 +257,12 @@
       <!-- SCALABRINI -->
       <a href="scalabrini-site/index.html" class="card card-hockey">
         <div class="card-icon">🏒🍁</div>
-        <div class="card-title">Scalabrini</div>
+        <div class="card-title">Celebrini</div>
         <span class="card-tag">🇨🇦 HOCKEY · FRANÇAIS</span>
         <p class="card-desc">
-          L'homme de l'année. Le joueur qui a raté 3 occasions en or,
-          vu son équipe perdre contre les USA en prolongation,
-          et reçu un hommage quand même.
+          L'homme de l'année. Le joueur qui a raté 3 chances en or
+          pis qui a vu son équipe perdre contre les USA en overtime.
+          Nous autres, on y rend hommage pareil.
         </p>
         <div class="visit-btn">Visiter le site →</div>
       </a>
@@ -243,32 +284,18 @@
   </div>
 
   <!-- Secret Anthony link (hidden until unlocked) -->
-  <div id="secret-popup" style="
-    display:none;
-    position:fixed;
-    bottom:24px;
-    right:24px;
-    background:rgba(255,215,0,0.12);
-    border:2px solid rgba(255,215,0,0.5);
-    border-radius:14px;
-    padding:16px 22px;
-    text-align:center;
-    z-index:999;
-    animation: fadeIn 0.4s ease;
-  ">
-    <div style="font-size:1.6rem;margin-bottom:6px;">🕵️</div>
-    <div style="font-size:0.85rem;color:rgba(255,255,255,0.6);margin-bottom:10px;font-style:italic;">you found something...</div>
-    <a href="anthony.html" style="
-      display:inline-block;
-      background:#FFD700;
-      color:#1A1A2E;
-      text-decoration:none;
-      font-weight:bold;
-      font-size:0.9rem;
-      padding:8px 20px;
-      border-radius:20px;
-    ">Open the classified file 📂</a>
+  <div id="secret-popup">
+    <div class="popup-icon">🕵️</div>
+    <div class="popup-text">you found something...</div>
+    <a href="anthony.html">Open the classified file 📂</a>
   </div>
+
+  <!-- Fallback for users with JS disabled -->
+  <noscript>
+    <div style="position:relative;z-index:1;text-align:center;padding:12px;">
+      <a href="anthony.html" style="color:rgba(255,215,0,0.5);font-size:0.75rem;text-decoration:none;font-family:Georgia,serif;">🕵️ classified</a>
+    </div>
+  </noscript>
 
   <footer>
     <p>Tales of the Super Nintendo &nbsp;·&nbsp; All rights reserved, probably &nbsp;·&nbsp; 2026</p>
@@ -293,7 +320,7 @@
 
     // Generate starfield
     const container = document.getElementById('stars');
-    for (let i = 0; i < 120; i++) {
+    for (let i = 0; i < 60; i++) {
       const s = document.createElement('div');
       s.className = 'star';
       const size = 1 + Math.random() * 2.5;

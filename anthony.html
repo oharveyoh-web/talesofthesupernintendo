@@ -3,7 +3,12 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Anthony... we need to talk.</title>
+  <meta name="description" content="A classified file about Anthony — the enabler who started it all. You weren't supposed to find this."/>
+  <meta property="og:title" content="Anthony | Tales of the Super Nintendo"/>
+  <meta property="og:description" content="A classified file about Anthony — the enabler who started it all."/>
+  <meta property="og:type" content="website"/>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎮</text></svg>"/>
+  <title>Anthony | Tales of the Super Nintendo</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -43,6 +48,7 @@
       z-index: 10;
     }
     .back-btn:hover { background: rgba(255,255,255,0.2); color: white; }
+    .back-btn:focus-visible { outline: 2px solid #FFD700; outline-offset: 3px; }
 
     .page { max-width: 720px; width: 100%; text-align: center; }
 
@@ -76,7 +82,7 @@
 
     .subtitle {
       font-size: 1rem;
-      color: rgba(255,255,255,0.5);
+      color: rgba(255,255,255,0.7);
       font-style: italic;
       margin-bottom: 50px;
     }
@@ -288,9 +294,17 @@
 
     footer {
       margin-top: 60px;
-      color: rgba(255,255,255,0.2);
+      color: rgba(255,255,255,0.5);
       font-size: 0.78rem;
       font-family: Georgia, serif;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
     }
   </style>
 </head>

@@ -3,7 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Two Guys!</title>
+  <meta name="description" content="Just two guys bouncing, swaying, waving, and having an absolutely great time. What more could you ask for?"/>
+  <meta property="og:title" content="Two Guys! | Tales of the Super Nintendo"/>
+  <meta property="og:description" content="Just two guys bouncing, swaying, waving, and having an absolutely great time."/>
+  <meta property="og:type" content="website"/>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎮</text></svg>"/>
+  <title>Two Guys! | Tales of the Super Nintendo</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -104,14 +109,14 @@
     }
 
     /* Guy 1 — bouncing */
-    .guy1 { animation: bounce 0.6s ease-in-out infinite alternate; }
+    .guy1 { animation: bounce 0.6s ease-in-out infinite alternate; will-change: transform; }
     @keyframes bounce {
       from { transform: translateY(0); }
       to   { transform: translateY(-18px); }
     }
 
     /* Guy 2 — side-sway */
-    .guy2 { animation: sway 1s ease-in-out infinite alternate; }
+    .guy2 { animation: sway 1s ease-in-out infinite alternate; will-change: transform; }
     @keyframes sway {
       from { transform: rotate(-6deg); }
       to   { transform: rotate(6deg); }
@@ -188,6 +193,10 @@
       transform: translateY(-2px);
       box-shadow: 0 6px 20px rgba(0,0,0,0.3);
     }
+    .home-btn:focus-visible {
+      outline: 2px solid #FFD700;
+      outline-offset: 3px;
+    }
 
     /* Confetti */
     .confetti-piece {
@@ -199,6 +208,14 @@
     }
     @keyframes fall {
       to { transform: translateY(105vh) rotate(720deg); opacity: 0; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
     }
   </style>
 </head>
@@ -217,8 +234,8 @@
     <!-- GUY 1 -->
     <div class="guy-wrap">
       <div style="position:relative">
-        <div class="bubble bubble1" id="b1">Heyyyy!!</div>
-        <svg class="guy1" width="90" height="160" viewBox="0 0 90 160">
+        <div class="bubble bubble1" id="b1" aria-live="polite">Heyyyy!!</div>
+        <svg class="guy1" width="90" height="160" viewBox="0 0 90 160" role="img" aria-label="Guy 1 - a smiling character with brown hair and red shirt">
           <!-- Body -->
           <rect x="27" y="60" width="36" height="50" rx="6" fill="#E8A87C"/>
           <!-- Shirt detail -->
@@ -263,8 +280,8 @@
     <!-- GUY 2 -->
     <div class="guy-wrap">
       <div style="position:relative">
-        <div class="bubble bubble2" id="b2">Sup dude!!</div>
-        <svg class="guy2" width="90" height="160" viewBox="0 0 90 160">
+        <div class="bubble bubble2" id="b2" aria-live="polite">Sup dude!!</div>
+        <svg class="guy2" width="90" height="160" viewBox="0 0 90 160" role="img" aria-label="Guy 2 - a cool character with spiky hair, sunglasses, and purple shirt">
           <!-- Body / shirt -->
           <rect x="27" y="60" width="36" height="50" rx="6" fill="#9B59B6"/>
           <!-- Head -->
